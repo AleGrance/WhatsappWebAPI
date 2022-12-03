@@ -1,0 +1,6 @@
+npm i nodemon
+npm install -g ts-node
+node node_modules/puppeteer/install.js
+npm install -g typescript
+npm run build
+copiar manualmente la carpeta tmp en dist luego de compilar
