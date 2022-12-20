@@ -43,7 +43,7 @@ class WsTransporter extends Client implements LeadExternal {
     try {
       if (!this.status) return Promise.resolve({ error: "Escanee el código QR para loguearse" });
       const { message, phone, media } = lead;
-      //console.log("El lead: ", lead)
+      //console.log("El lead: ", lead);
       const response = await this.sendMessage(`${phone}@c.us`, message, {media});
       return { id: response.id.id };
     } catch (e: any) {
@@ -55,7 +55,7 @@ class WsTransporter extends Client implements LeadExternal {
     try {
       if (!this.status) return Promise.resolve({ error: "Escanee el código QR para loguearse" });
       const { message, phone } = lead;
-      //console.log("El lead: ", lead)
+      //console.log("El lead: ", lead);
       const response = await this.sendMessage(`${phone}@c.us`, message);
       return { id: response.id.id };
     } catch (e: any) {
