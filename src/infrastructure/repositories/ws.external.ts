@@ -21,6 +21,7 @@ class WsTransporter extends Client implements LeadExternal {
     this.on("ready", () => {
       this.status = true;
       console.log("LOGIN_SUCCESS");
+      console.log("USER_VINCULADO: ", {USER: this.info.pushname, NRO: this.info.wid.user});
     });
 
     this.on("auth_failure", () => {
