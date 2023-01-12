@@ -57,9 +57,9 @@ class WsTransporter extends Client implements LeadExternal {
       //console.log("El lead: ", lead);
 
       // Si el numero no esta registrado en WA no se envia el mensaje y retorna el nro
-      if (!(await this.getNumberId(lead.phone))) {
-        return { unknow: lead.phone };
-      }
+      // if (!(await this.getNumberId(lead.phone))) {
+      //   return { unknow: lead.phone };
+      // }
       
       const response = await this.sendMessage(`${phone}@c.us`, message, {
         media,
@@ -80,9 +80,9 @@ class WsTransporter extends Client implements LeadExternal {
       //console.log("El lead: ", lead);
 
       // Si el numero no esta registrado en WA no se envia el mensaje y retorna el nro
-      if (!(await this.getNumberId(lead.phone))) {
-        return { unknow: lead.phone };
-      }
+      // if (!(await this.getNumberId(lead.phone))) {
+      //   return { unknow: lead.phone };
+      // }
 
       const response = await this.sendMessage(`${phone}@c.us`, message);
       return { id: response.id.id };
