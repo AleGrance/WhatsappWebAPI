@@ -21,7 +21,10 @@ class WsTransporter extends Client implements LeadExternal {
     this.on("ready", () => {
       this.status = true;
       console.log("LOGIN_SUCCESS");
-      console.log("USER_VINCULADO!: ", {USER: this.info.pushname, NRO: this.info.wid.user});
+      console.log("USER_VINCULADO!: ", {
+        USER: this.info.pushname,
+        NRO: this.info.wid.user,
+      });
     });
 
     this.on("auth_failure", () => {
@@ -30,8 +33,8 @@ class WsTransporter extends Client implements LeadExternal {
     });
 
     this.on("qr", (qr) => {
-      console.log('Escanea el codigo QR que esta en la carepta tmp')
-      this.generateImage(qr)
+      console.log("Escanea el codigo QR que esta en la carepta tmp");
+      this.generateImage(qr);
     });
   }
 
@@ -40,12 +43,27 @@ class WsTransporter extends Client implements LeadExternal {
    * @param lead
    * @returns
    */
-  async sendMsg(lead: { message: string; phone: string; media: MessageMedia; }): Promise<any> {
+  async sendMsg(lead: {
+    message: string;
+    phone: string;
+    media: MessageMedia;
+  }): Promise<any> {
     try {
-      if (!this.status) return Promise.resolve({ error: "Escanee el código QR para loguearse" });
+      if (!this.status)
+        return Promise.resolve({
+          error: "Escanee el código QR para loguearse",
+        });
       const { message, phone, media } = lead;
       //console.log("El lead: ", lead);
-      const response = await this.sendMessage(`${phone}@c.us`, message, {media});
+
+      // Si el numero no esta registrado en WA no se envia el mensaje y retorna el nro
+      if (!(await this.getNumberId(lead.phone))) {
+        return { unknow: lead.phone };
+      }
+      
+      const response = await this.sendMessage(`${phone}@c.us`, message, {
+        media,
+      });
       return { id: response.id.id };
     } catch (e: any) {
       return Promise.resolve({ error: e.message });
@@ -54,9 +72,18 @@ class WsTransporter extends Client implements LeadExternal {
 
   async sendMsgSimple(lead: { message: string; phone: string }): Promise<any> {
     try {
-      if (!this.status) return Promise.resolve({ error: "Escanee el código QR para loguearse" });
+      if (!this.status)
+        return Promise.resolve({
+          error: "Escanee el código QR para loguearse",
+        });
       const { message, phone } = lead;
       //console.log("El lead: ", lead);
+
+      // Si el numero no esta registrado en WA no se envia el mensaje y retorna el nro
+      if (!(await this.getNumberId(lead.phone))) {
+        return { unknow: lead.phone };
+      }
+
       const response = await this.sendMessage(`${phone}@c.us`, message);
       return { id: response.id.id };
     } catch (e: any) {
