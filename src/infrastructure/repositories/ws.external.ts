@@ -21,7 +21,7 @@ class WsTransporter extends Client implements LeadExternal {
     this.on("ready", () => {
       this.status = true;
       console.log("LOGIN_SUCCESS");
-      console.log("USER_VINCULADO: ", {USER: this.info.pushname, NRO: this.info.wid.user});
+      console.log("USER_VINCULADO!: ", {USER: this.info.pushname, NRO: this.info.wid.user});
     });
 
     this.on("auth_failure", () => {
@@ -72,7 +72,7 @@ class WsTransporter extends Client implements LeadExternal {
     const path = `${process.cwd()}/tmp`;
     let qr_svg = imageQr(base64, { type: "svg", margin: 4 });
     qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.svg`));
-    qr_svg.pipe(require("fs").createWriteStream(`C:/Enviador/EnviadorWebAPP/dist/enviador/assets/img/qr.svg`));
+    //qr_svg.pipe(require("fs").createWriteStream(`C:/Enviador/EnviadorWebAPP/dist/enviador/assets/img/qr.svg`));
     console.log(`⚡ Recuerda que el QR se actualiza cada minuto ⚡'`);
     console.log(`⚡ Actualiza F5 el navegador para mantener el mejor QR⚡`);
   };
