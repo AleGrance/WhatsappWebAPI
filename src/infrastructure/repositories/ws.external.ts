@@ -21,7 +21,7 @@ class WsTransporter extends Client implements LeadExternal {
     this.on("ready", () => {
       this.status = true;
       console.log("LOGIN_SUCCESS");
-      console.log("USER_VINCULADO!: ", {
+      console.log("USER_VINCULADO: ", {
         USER: this.info.pushname,
         NRO: this.info.wid.user,
       });
@@ -57,15 +57,15 @@ class WsTransporter extends Client implements LeadExternal {
       //console.log("El lead: ", lead);
       // Si tipo de dato es numerico convertir a string para poder verificar
       // Para enviar no importa el tipo de dato pero para verificar sí porque recibe solo string
-      if (typeof lead.phone === 'number') {
+      if (typeof lead.phone === "number") {
         let nroCel: any = lead.phone;
-        lead.phone = nroCel.toString()
+        lead.phone = nroCel.toString();
       }
       // Si el numero no esta registrado en WA no se envia el mensaje y retorna el nro
       if (!(await this.getNumberId(lead.phone))) {
         return { unknow: lead.phone };
       }
-      
+
       const response = await this.sendMessage(`${phone}@c.us`, message, {
         media,
       });
@@ -85,9 +85,9 @@ class WsTransporter extends Client implements LeadExternal {
       //console.log("El lead: ", lead);
       // Si tipo de dato es numerico convertir a string para poder verificar
       // Para enviar no importa el tipo de dato pero para verificar sí
-      if (typeof lead.phone === 'number') {
+      if (typeof lead.phone === "number") {
         let nroCel: any = lead.phone;
-        lead.phone = nroCel.toString()
+        lead.phone = nroCel.toString();
       }
       // Si el numero no esta registrado en WA no se envia el mensaje y retorna el nro
       if (!(await this.getNumberId(lead.phone))) {
