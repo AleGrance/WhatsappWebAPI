@@ -2,7 +2,7 @@ import { MessageMedia } from "whatsapp-web.js";
 import { Lead } from "./lead";
 
 /**
- * Esta la interfaz que debe de cumplir el repositorio de infraestructura
+ * Esta es la interfaz que debe de cumplir el repositorio de infraestructura
  * mysql o mongo o etc
  */
 export default interface LeadRepository {
