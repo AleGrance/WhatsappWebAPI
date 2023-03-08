@@ -11,7 +11,10 @@ class WsTransporter extends Client implements LeadExternal {
   constructor() {
     super({
       authStrategy: new LocalAuth(),
-      puppeteer: { headless: true },
+      puppeteer: {
+        headless: true,
+        //executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+      }
     });
 
     console.log("Iniciando....");
