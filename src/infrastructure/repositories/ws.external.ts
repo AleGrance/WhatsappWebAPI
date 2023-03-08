@@ -14,6 +14,8 @@ class WsTransporter extends Client implements LeadExternal {
       puppeteer: {
         headless: true,
         //executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        //executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+        //executablePath: '/usr/bin/google-chrome-stable'
       }
     });
 
