@@ -7,6 +7,7 @@ import LeadExternal from "../../domain/lead-external.repository";
  */
 class WsTransporter extends Client implements LeadExternal {
   private status = false;
+  private qrCode: any = '';
 
   constructor() {
     super({
@@ -148,7 +149,15 @@ class WsTransporter extends Client implements LeadExternal {
   }
 
   async getMyStatus(): Promise<any> {
-    return { myStatus: this.status };
+    if (!this.status) {
+      return { myStatus: this.status, QR: this.qrCode };
+    } else {
+      return {
+        myStatus: this.status,
+        name: this.info.pushname,
+        number: this.info.wid.user,
+      };
+    }
     //return { myStatus: this.status, state: this.getState() };
     //return this.getState();
     //return this.info;
@@ -156,8 +165,17 @@ class WsTransporter extends Client implements LeadExternal {
 
   private generateImage = (base64: string) => {
     const path = `${process.cwd()}/tmp`;
-    let qr_svg = imageQr(base64, { type: "svg", margin: 40 });
-    qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.svg`));
+    let qr_svg = imageQr(base64, { type: "png", margin: 40 });
+
+    // Convierte la imagen QR a una cadena Base64
+    const chunks: any[] = [];
+    qr_svg.on('data', chunk => chunks.push(chunk));
+    qr_svg.on('end', () => {
+      const qrCodeBase64 = Buffer.concat(chunks).toString('base64');
+      this.qrCode = qrCodeBase64;
+    });
+
+    qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.png`));
     console.log(`⚡ Recuerda que el QR se actualiza cada minuto ⚡'`);
     console.log(`⚡ Actualiza F5 el navegador para mantener el mejor QR⚡`);
   };
