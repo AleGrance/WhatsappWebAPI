@@ -22,7 +22,7 @@ export class LeadCreate {
   }) {
     const responseDbSave = await this.leadRepository.save({ message, phone, media });//TODO DB
     const responseExSave = await this.leadExternal.sendMsg({ message, phone, media });//TODO enviar a ws
-    return {responseDbSave, responseExSave};
+    return { responseDbSave, responseExSave };
   }
 
   public async sendMessageAndSaveSimple({
@@ -35,7 +35,16 @@ export class LeadCreate {
     const responseDbSave = await this.leadRepository.saveSimple({ message, phone });//TODO DB
     const responseExSave = await this.leadExternal.sendMsgSimple({ message, phone });//TODO enviar a ws
     //return {responseDbSave, responseExSave};
-    return {responseExSave};
+
+    /* 
+      Caso de que la sesion se cierre desde el celular
+    */
+    // if (responseExSave.error === "Protocol error (Runtime.callFunctionOn): Session closed. Most likely the page has been closed.") {
+    //   this.logMeOut();
+    //   return;
+    // }
+
+    return { responseExSave };
   }
 
   // Para desloguear

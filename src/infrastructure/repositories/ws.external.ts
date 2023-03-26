@@ -96,8 +96,8 @@ class WsTransporter extends Client implements LeadExternal {
         return { unknow: lead.phone };
       }
 
-      //const response = await this.sendMessage(`${phone}@c.us`, message, { media: media });
-      const response = await this.sendMessage(`${phone}@c.us`, new Buttons('algo', [{ id: 'customId', body: 'button1' }, { body: 'button2' }, { body: 'button3' }, { body: 'button4' }], 'Title here, doesn\'t work with media', 'Footer here'), { caption: 'if you used a MessageMedia instance, use the caption here' });
+      const response = await this.sendMessage(`${phone}@c.us`, message, { media: media });
+      //const response = await this.sendMessage(`${phone}@c.us`, new Buttons('algo', [{ id: 'customId', body: 'button1' }, { body: 'button2' }, { body: 'button3' }, { body: 'button4' }], 'Title here, doesn\'t work with media', 'Footer here'), { caption: 'if you used a MessageMedia instance, use the caption here' });
       return { id: response.id.id };
     } catch (e: any) {
       return Promise.resolve({ error: e.message });
@@ -137,6 +137,7 @@ class WsTransporter extends Client implements LeadExternal {
       return { msg: 'already logged out' };
     } else {
       this.logout();
+      this.status = false;
       console.log("USUARIO_DESVINCULADO");
       this.on('disconnected', (reason) => {
         // Destroy and reinitialize the client when disconnected
@@ -147,7 +148,10 @@ class WsTransporter extends Client implements LeadExternal {
   }
 
   async getMyStatus(): Promise<any> {
-    return { isLoggedIn: this.status };
+    return { myStatus: this.status };
+    //return { myStatus: this.status, state: this.getState() };
+    //return this.getState();
+    //return this.info;
   }
 
   private generateImage = (base64: string) => {
