@@ -34,6 +34,18 @@ export class LeadCreate {
   }) {
     const responseDbSave = await this.leadRepository.saveSimple({ message, phone });//TODO DB
     const responseExSave = await this.leadExternal.sendMsgSimple({ message, phone });//TODO enviar a ws
-    return {responseDbSave, responseExSave};
+    //return {responseDbSave, responseExSave};
+    return {responseExSave};
+  }
+
+  // Para desloguear
+  public async logMeOut() {
+    const responseLog = await this.leadExternal.logMeOut();
+    return responseLog;
+  }
+  // Get status
+  public async getMyStatus() {
+    const responseLog = await this.leadExternal.getMyStatus();
+    return responseLog;
   }
 }

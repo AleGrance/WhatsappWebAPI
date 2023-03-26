@@ -3,7 +3,7 @@ import { MessageMedia, Client } from "whatsapp-web.js";
 import { LeadCreate } from "../../application/lead.create";
 
 class LeadCtrl {
-  constructor(private readonly leadCreator: LeadCreate) {}
+  constructor(private readonly leadCreator: LeadCreate) { }
 
   public sendCtrl = async ({ body }: Request, res: Response) => {
     if (body.mimeType === "") {
@@ -30,6 +30,16 @@ class LeadCtrl {
       res.send(response);
     }
   };
+
+  public logOutCtrl = async ({ body }: Request, res: Response) => {
+    const response = await this.leadCreator.logMeOut();
+    res.send(response);
+  }
+
+  public getStatusCtrl = async ({ body }: Request, res: Response) => {
+    const response = await this.leadCreator.getMyStatus();
+    res.send(response);
+  }
 }
 
 export default LeadCtrl;

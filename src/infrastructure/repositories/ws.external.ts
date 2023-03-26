@@ -1,4 +1,4 @@
-import { Client, LocalAuth, MessageMedia } from "whatsapp-web.js";
+import { Client, LocalAuth, MessageMedia, Message, Buttons } from "whatsapp-web.js";
 import { image as imageQr } from "qr-image";
 import LeadExternal from "../../domain/lead-external.repository";
 
@@ -11,6 +11,7 @@ class WsTransporter extends Client implements LeadExternal {
   constructor() {
     super({
       authStrategy: new LocalAuth(),
+      //restartOnAuthFail: true,
       puppeteer: {
         headless: true,
         //executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
@@ -38,7 +39,7 @@ class WsTransporter extends Client implements LeadExternal {
     });
 
     this.on("qr", (qr) => {
-      console.log("Escanea el codigo QR que esta en la carepta tmp");
+      console.log("Escanea el codigo QR que esta en la carpeta tmp");
       this.generateImage(qr);
     });
   }
@@ -54,12 +55,36 @@ class WsTransporter extends Client implements LeadExternal {
     media: MessageMedia;
   }): Promise<any> {
     try {
+
       if (!this.status)
         return Promise.resolve({
           error: "Escanee el código QR para loguearse",
         });
+
       const { message, phone, media } = lead;
-      //console.log("El lead: ", lead);
+      //const buttons = new Buttons('Botones', [{ id: 'boton1', body: 'Opcion 1' }, { id: 'boton2', body: 'Opcion 2' }], 'Titulo', 'Footer');
+      const buttons = [
+        { index: 1, text: 'Opción 1', id: 'opcion_1' },
+        { index: 2, text: 'Opción 2', id: 'opcion_2' },
+        { index: 3, text: 'Opción 3', id: 'opcion_3' },
+      ];
+
+      // Enviar el mensaje con botones dinámicos y la imagen
+      const msg = {
+        to: `${phone}@c.us`,
+        media: media,
+        caption: message,
+        thumbnail: undefined,
+        mimetype: undefined,
+        filename: undefined,
+        captionMentions: undefined,
+        ephemeralExpiration: undefined,
+        ephemeralSettingTimestamp: undefined,
+        sendSeen: false,
+        buttons: buttons,
+      };
+
+
       // Si tipo de dato es numerico convertir a string para poder verificar
       // Para enviar no importa el tipo de dato pero para verificar sí porque recibe solo string
       if (typeof lead.phone === "number") {
@@ -71,16 +96,15 @@ class WsTransporter extends Client implements LeadExternal {
         return { unknow: lead.phone };
       }
 
-      const response = await this.sendMessage(`${phone}@c.us`, message, {
-        media,
-      });
+      //const response = await this.sendMessage(`${phone}@c.us`, message, { media: media });
+      const response = await this.sendMessage(`${phone}@c.us`, new Buttons('algo', [{ id: 'customId', body: 'button1' }, { body: 'button2' }, { body: 'button3' }, { body: 'button4' }], 'Title here, doesn\'t work with media', 'Footer here'), { caption: 'if you used a MessageMedia instance, use the caption here' });
       return { id: response.id.id };
     } catch (e: any) {
       return Promise.resolve({ error: e.message });
     }
   }
 
-  async sendMsgSimple(lead: { message: string; phone: string }): Promise<any> {
+  async sendMsgSimple(lead: { message: string; phone: string, }): Promise<any> {
     try {
       if (!this.status)
         return Promise.resolve({
@@ -100,19 +124,35 @@ class WsTransporter extends Client implements LeadExternal {
       }
 
       const response = await this.sendMessage(`${phone}@c.us`, message);
+      //const response = await this.sendMessage(`${phone}@c.us`, new Buttons('algo', [{ id: 'customId', body: 'button1' }, { body: 'button2' }, { body: 'button3' }, { body: 'button4' }], 'Title here, doesn\'t work with media', 'Footer here'), { caption: 'if you used a MessageMedia instance, use the caption here' });
+
       return { id: response.id.id };
     } catch (e: any) {
       return Promise.resolve({ error: e.message });
     }
   }
 
-  getStatus(): boolean {
-    return this.status;
+  async logMeOut(): Promise<any> {
+    if (!this.status) {
+      return { msg: 'already logged out' };
+    } else {
+      this.logout();
+      console.log("USUARIO_DESVINCULADO");
+      this.on('disconnected', (reason) => {
+        // Destroy and reinitialize the client when disconnected
+        this.initialize();
+      });
+      return { msg: 'logged out' };
+    }
+  }
+
+  async getMyStatus(): Promise<any> {
+    return { isLoggedIn: this.status };
   }
 
   private generateImage = (base64: string) => {
     const path = `${process.cwd()}/tmp`;
-    let qr_svg = imageQr(base64, { type: "svg", margin: 4 });
+    let qr_svg = imageQr(base64, { type: "svg", margin: 40 });
     qr_svg.pipe(require("fs").createWriteStream(`${path}/qr.svg`));
     console.log(`⚡ Recuerda que el QR se actualiza cada minuto ⚡'`);
     console.log(`⚡ Actualiza F5 el navegador para mantener el mejor QR⚡`);

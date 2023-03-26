@@ -8,5 +8,14 @@ const router: Router = Router();
  */
 const leadCtrl: LeadCtrl = container.get("lead.ctrl");
 router.post("/", leadCtrl.sendCtrl);
+router.get('/', (req, res) => {
+    res.send({
+        msg: "WWA"
+    });
+});
+
+router.get('/logout', leadCtrl.logOutCtrl);
+router.get('/status', leadCtrl.getStatusCtrl);
+
 
 export { router };
