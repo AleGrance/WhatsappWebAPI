@@ -5,4 +5,5 @@ export default interface LeadExternal {
     sendMsgSimple({message, phone}:{message:string, phone:string}):Promise<any>
     logMeOut():Promise<any>
     getMyStatus():Promise<any>
+    getMyState():Promise<any>
 }

@@ -140,10 +140,7 @@ class WsTransporter extends Client implements LeadExternal {
       this.logout();
       this.status = false;
       console.log("USUARIO_DESVINCULADO");
-      this.on('disconnected', (reason) => {
-        // Destroy and reinitialize the client when disconnected
-        this.initialize();
-      });
+      this.initialize();
       return { msg: 'logged out' };
     }
   }
@@ -158,14 +155,15 @@ class WsTransporter extends Client implements LeadExternal {
         number: this.info.wid.user,
       };
     }
-    //return { myStatus: this.status, state: this.getState() };
-    //return this.getState();
-    //return this.info;
+  }
+
+  async getMyState(): Promise<any> {
+    return this.getState();
   }
 
   private generateImage = (base64: string) => {
     const path = `${process.cwd()}/tmp`;
-    let qr_svg = imageQr(base64, { type: "png", margin: 40 });
+    let qr_svg = imageQr(base64, { type: "png", margin: 4 });
 
     // Convierte la imagen QR a una cadena Base64
     const chunks: any[] = [];

@@ -40,6 +40,11 @@ class LeadCtrl {
     const response = await this.leadCreator.getMyStatus();
     res.send(response);
   }
+
+  public getStateCtrl = async ({ body }: Request, res: Response) => {
+    const response = await this.leadCreator.getMyState();
+    res.send(response);
+  }
 }
 
 export default LeadCtrl;

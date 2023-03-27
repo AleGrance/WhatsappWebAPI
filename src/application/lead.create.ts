@@ -47,7 +47,7 @@ export class LeadCreate {
     return { responseExSave };
   }
 
-  // Para desloguear
+  // Log out
   public async logMeOut() {
     const responseLog = await this.leadExternal.logMeOut();
     return responseLog;
@@ -55,6 +55,12 @@ export class LeadCreate {
   // Get status
   public async getMyStatus() {
     const responseLog = await this.leadExternal.getMyStatus();
+    return responseLog;
+  }
+
+  // Get status
+  public async getMyState() {
+    const responseLog = await this.leadExternal.getMyState();
     return responseLog;
   }
 }

@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/logout', leadCtrl.logOutCtrl);
 router.get('/status', leadCtrl.getStatusCtrl);
+router.get('/state', leadCtrl.getStateCtrl);
 
 
 export { router };
