@@ -45,5 +45,9 @@ export default class TwilioService extends Twilio implements LeadExternal {
         return Promise.reject(e)
     }
   }
+
+  async logMeOut(): Promise<any> {}
+  async getMyStatus(): Promise<any> {}
+  async getMyState(): Promise<any> {}
 }
 

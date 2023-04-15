@@ -64,5 +64,9 @@ export default class MetaRepository implements LeadExternal {
     return body
   }
 
+  async logMeOut() {}
+  async getMyStatus() {}
+  async getMyState() {}
+
 
 }
