@@ -2,6 +2,8 @@ import { Client, LocalAuth, MessageMedia, Message, Buttons } from "whatsapp-web.
 import { image as imageQr } from "qr-image";
 import LeadExternal from "../../domain/lead-external.repository";
 
+import * as loadRouter from "../router/index";
+
 /**
  * Extendemos los super poderes de whatsapp-web
  */
@@ -135,12 +137,15 @@ class WsTransporter extends Client implements LeadExternal {
 
   async logMeOut(): Promise<any> {
     if (!this.status) {
+      this.initialize();
       return { msg: 'already logged out' };
     } else {
       this.logout();
       this.status = false;
       console.log("USUARIO_DESVINCULADO");
-      this.initialize();
+
+      //this.initialize();
+
       return { msg: 'logged out' };
     }
   }
