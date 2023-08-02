@@ -1,4 +1,4 @@
-import { Client, LocalAuth, MessageMedia, Message, Buttons } from "whatsapp-web.js";
+import { Client, LocalAuth, MessageMedia, Message, Buttons, MessageAck, Reaction } from "whatsapp-web.js";
 import { image as imageQr } from "qr-image";
 import LeadExternal from "../../domain/lead-external.repository";
 
@@ -129,6 +129,22 @@ class WsTransporter extends Client implements LeadExternal {
 
       const response = await this.sendMessage(`${phone}@c.us`, message);
       //const response = await this.sendMessage(`${phone}@c.us`, new Buttons('algo', [{ id: 'customId', body: 'button1' }, { body: 'button2' }, { body: 'button3' }, { body: 'button4' }], 'Title here, doesn\'t work with media', 'Footer here'), { caption: 'if you used a MessageMedia instance, use the caption here' });
+
+      // Suscribirse al evento message_ack
+      this.on("message_ack", (message: Message, ack: MessageAck) => {
+        console.log('Message sent:', message.id);
+        console.log('New ACK value:', ack);
+      });
+
+      // Suscribirse al evento message_reaction
+      // this.on("message_reaction", (reaction: Reaction) => {
+      //   console.log('Reaction received:', reaction);
+      // });
+
+      // Suscribirse al evento message
+      // this.on("message", (message: Message) => {
+      //   console.log('Message received:', message);
+      // });
 
       return { id: response.id.id };
     } catch (e: any) {
