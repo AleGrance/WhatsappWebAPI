@@ -4,5 +4,7 @@ dist
 tmp/*
 !tmp/.gitkeep
 .wwebjs_auth
+.wwebjs_cache
 *.bat
 !spec/*.bat
+.DS_Store
