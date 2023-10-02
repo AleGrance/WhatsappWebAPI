@@ -17,7 +17,7 @@ class WsTransporter extends Client implements LeadExternal {
       //restartOnAuthFail: true,
       puppeteer: {
         headless: true,
-        args: ['--no-sandbox']
+        args: ['--no-sandbox'],
         //executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         //executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
         //executablePath: '/usr/bin/google-chrome-stable'
