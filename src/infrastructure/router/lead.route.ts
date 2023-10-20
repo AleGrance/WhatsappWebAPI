@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import LeadCtrl from "../controller/lead.ctrl";
 import container from "../ioc";
 const router: Router = Router();
-const apiKey = '^f4xufs,9}1ITYYJYbU>.ZF]32(J94ñññ';
+const apiKey = '^f4xufs,9}1ITYYJYbU>.ZF]32(J94';
 
 /**
  * http://localhost/lead POST
@@ -15,7 +15,7 @@ router.get('/', validateApiKey, (req, res) => {
     });
 });
 
-router.post("/", leadCtrl.sendCtrl);
+router.post("/", validateApiKey, leadCtrl.sendCtrl);
 router.get('/status', validateApiKey, leadCtrl.getStatusCtrl);
 router.get('/logout', validateApiKey, leadCtrl.logOutCtrl);
 router.get('/state', validateApiKey, leadCtrl.getStateCtrl);
@@ -35,6 +35,7 @@ function validateApiKey(req: any, res: any, next: any) {
     if (req.headers.apikey === apiKey) {
         next();
     } else {
+        console.log(req.headers.apikey);
         return res.status(403).send({
             error: "Forbidden",
             message: "Cabecera de autorización inválida",
