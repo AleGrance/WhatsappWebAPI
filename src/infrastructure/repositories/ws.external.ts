@@ -131,10 +131,10 @@ class WsTransporter extends Client implements LeadExternal {
       //const response = await this.sendMessage(`${phone}@c.us`, new Buttons('algo', [{ id: 'customId', body: 'button1' }, { body: 'button2' }, { body: 'button3' }, { body: 'button4' }], 'Title here, doesn\'t work with media', 'Footer here'), { caption: 'if you used a MessageMedia instance, use the caption here' });
 
       // Suscribirse al evento message_ack
-      this.on("message_ack", (message: Message, ack: MessageAck) => {
-        console.log('Message sent:', message.id);
-        console.log('New ACK value:', ack);
-      });
+      // this.on("message_ack", (message: Message, ack: MessageAck) => {
+      //   console.log('Message sent:', message.id);
+      //   console.log('New ACK value:', ack);
+      // });
 
       // Suscribirse al evento message_reaction
       // this.on("message_reaction", (reaction: Reaction) => {
