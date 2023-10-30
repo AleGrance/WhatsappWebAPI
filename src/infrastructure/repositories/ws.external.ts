@@ -20,7 +20,9 @@ class WsTransporter extends Client implements LeadExternal {
         args: ['--no-sandbox'],
         //executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         //executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-        //executablePath: '/usr/bin/google-chrome-stable'
+
+        // YA ESTA INSTALADO EN EL CLOUDCLUSTERS
+        executablePath: '/usr/bin/google-chrome-stable'
       }
     });
 
