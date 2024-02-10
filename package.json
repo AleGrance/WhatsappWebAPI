@@ -1,5 +1,5 @@
 {
-  "name": "whatsapp-api-yt",
+  "name": "wwa",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,9 +22,10 @@
     "nodemon": "^2.0.20",
     "puppeteer": "^21.3.6",
     "qr-image": "^3.2.0",
+    "ts-node": "^10.9.2",
     "twilio": "^3.80.1",
     "uuid": "^8.3.2",
-    "whatsapp-web.js": "1.22.2-alpha.3"
+    "whatsapp-web.js": "1.23.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
